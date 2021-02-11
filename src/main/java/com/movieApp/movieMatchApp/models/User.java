@@ -1,5 +1,6 @@
 package com.movieApp.movieMatchApp.models;
 
+import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JGlobalMap
 @Builder
 public class User {
 
@@ -54,7 +56,13 @@ public class User {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column
     private Role role;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column
+    private UserStatus status;
 
     @Size(max = 80)
     private String addressLine;
@@ -67,6 +75,7 @@ public class User {
     @Column(nullable = false)
     private String country;
 
+    @Column(nullable = false)
     private Instant createdAt;
 
     @Column

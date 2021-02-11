@@ -1,9 +1,10 @@
 package com.movieApp.movieMatchApp.dto;
 
+import com.googlecode.jmapper.annotations.JGlobalMap;
 import com.movieApp.movieMatchApp.models.Role;
+import com.movieApp.movieMatchApp.models.UserStatus;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
+@JGlobalMap
 public class UserDto {
 
     private Long id;
@@ -48,10 +50,13 @@ public class UserDto {
     @NotNull
     private Role role;
 
-    private Instant createdAt;
+    @NotNull
+    private UserStatus status;
 
     @Size(max = 80)
     private String addressLine;
+
+    private Instant createdAt;
 
     @Size(min = 2, max = 80)
     private String city;
