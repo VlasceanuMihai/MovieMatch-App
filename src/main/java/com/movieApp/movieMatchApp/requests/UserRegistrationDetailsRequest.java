@@ -34,7 +34,6 @@ public class UserRegistrationDetailsRequest {
     private String email;
 
     @NotNull
-    @Email
     private String mobileNumber;
 
     @NotNull

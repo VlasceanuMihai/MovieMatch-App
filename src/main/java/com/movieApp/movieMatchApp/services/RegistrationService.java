@@ -37,28 +37,29 @@ public class RegistrationService {
         if (userService.checkExistingEmail(request.getEmail()) ||
                 userService.checkExistingMobileNumber(request.getMobileNumber()) ||
                 userService.checkSameNameAndDateOfBirthAndStatus(request.getFirstName(), request.getLastName(), request.getDateOfBirth())) {
-            throw new UserExistsException("User with email " + request.getEmail() + " already exists!");
+            throw new UserExistsException("User with email - " + request.getEmail() + " or mobile number - " + request.getMobileNumber() +
+                    " or name - " + (request.getFirstName().concat(request.getLastName())) + " already exists!");
         }
 
         return userRepository.save(getUpdateUser(request));
     }
 
     private User getUpdateUser(UserRegistrationDetailsRequest request) {
-        return User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .dateOfBirth(request.getDateOfBirth())
-                .email(request.getEmail())
-                .mobileNumber(request.getMobileNumber())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .addressLine(request.getAddressLine())
-                .city(request.getCity())
-                .country(request.getCountry())
-                .role(Role.ROLE_USER)
-                .status(UserStatus.ACCOUNT_CREATED)
-                .createdAt(Instant.now())
-                .emailVerified(false)
-                .mobileVerified(false)
-                .build();
+        User user = new User();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setDateOfBirth(request.getDateOfBirth());
+        user.setEmail(request.getEmail());
+        user.setMobileNumber(request.getMobileNumber());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setAddressLine(request.getAddressLine());
+        user.setCity(request.getCity());
+        user.setCountry(request.getCountry());
+        user.setRole(Role.ROLE_USER);
+        user.setStatus(UserStatus.ACCOUNT_CREATED);
+        user.setCreatedAt(Instant.now());
+        user.setEmailVerified(false);
+        user.setMobileVerified(false);
+        return user;
     }
 }
