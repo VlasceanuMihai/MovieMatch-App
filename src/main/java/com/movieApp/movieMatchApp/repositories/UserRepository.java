@@ -1,0 +1,21 @@
+package com.movieApp.movieMatchApp.repositories;
+
+import com.movieApp.movieMatchApp.models.User;
+import com.movieApp.movieMatchApp.models.UserStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByMobileNumber(String mobileNumber);
+
+    Optional<User> findByFirstNameAndLastNameAndDateOfBirthAndStatus(String firstName,
+                                                                     String lastName,
+                                                                     LocalDate dateOfBirth,
+                                                                     UserStatus status);
+}
