@@ -28,7 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/api/v1/registration*").permitAll()
-                .anyRequest().authenticated().and().formLogin().permitAll();
+                .antMatchers(HttpMethod.OPTIONS, "/api/v1/registration*").permitAll();
     }
 }
