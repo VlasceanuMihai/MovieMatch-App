@@ -1,5 +1,6 @@
 package com.movieApp.movieMatchApp.services;
 
+import com.movieApp.movieMatchApp.exceptions.UserNotFoundException;
 import com.movieApp.movieMatchApp.models.User;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,7 +23,8 @@ public class UserAuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("No user found with username: " + email));
 
         return null;
     }
