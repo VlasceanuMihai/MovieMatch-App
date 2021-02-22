@@ -1,10 +1,9 @@
 package com.movieApp.movieMatchApp.controllers;
 
+import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.services.MovieService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -17,7 +16,14 @@ public class MovieController {
     }
 
     @GetMapping("/v1/movies")
-    public ResponseEntity<Object> movies(){
+    public ResponseEntity<Object> getMovies(){
+
         return ResponseEntity.ok(movieService.getAllMovies());
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> addMovie(MovieDto movieDto) {
+
+        return ResponseEntity.ok(movieService.addMovie(movieDto));
     }
 }
