@@ -17,9 +17,9 @@ import java.io.Serializable;
 public class UserAndMovieKey implements Serializable {
 
     @Column
-    private int userId;
+    private Long userId;
 
     @Column
-    private int movieId;
+    private Long movieId;
 
 }
