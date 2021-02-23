@@ -7,10 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Data
@@ -19,14 +16,18 @@ import java.time.LocalDate;
 @Builder
 public class UserRegistrationDetailsRequest {
 
-    @Size(min = 2, max = 80, message = ValidationKey.SIGNUP_FIRST_NAME_FORMAT)
     @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 80, message = ValidationKey.SIGNUP_FIRST_NAME_FORMAT)
     private String firstName;
 
+    @NotNull
+    @NotEmpty
     @Size(min = 2, max = 80, message = ValidationKey.SIGNUP_LAST_NAME_FORMAT)
     private String lastName;
 
-    @NotNull(message = ValidationKey.SIGNUP_DATE_OF_BIRTH_FORMAT)
+    @NotNull
+    @Past
     private LocalDate dateOfBirth;
 
     @Size(min = 5, max = 255)
@@ -34,21 +35,26 @@ public class UserRegistrationDetailsRequest {
     private String email;
 
     @NotNull
+    @NotEmpty
     private String mobileNumber;
 
     @NotNull
+    @NotEmpty
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{2,30}$")
     private String password;
 
-    @Size(max = 80)
     @NotNull
+    @NotEmpty
+    @Size(max = 80)
     private String addressLine;
 
-    @Size(min = 2, max = 80)
     @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 80)
     private String city;
 
-    @Size(min = 2, max = 80)
     @NotNull
+    @NotEmpty
+    @Size(min = 2, max = 80)
     private String country;
 }

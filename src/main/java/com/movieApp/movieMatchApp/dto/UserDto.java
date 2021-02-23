@@ -5,10 +5,7 @@ import com.movieApp.movieMatchApp.models.Role;
 import com.movieApp.movieMatchApp.models.UserStatus;
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -24,26 +21,38 @@ public class UserDto {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private UUID externalId;
 
+    @NotNull
+    @NotEmpty
     @Size(max = 80)
     private String firstName;
 
+    @NotNull
+    @NotEmpty
     @Size(max = 80)
     private String lastName;
 
+    @NotNull
+    @NotEmpty
+    @Past
     private LocalDate dateOfBirth;
 
+    @NotNull
+    @NotEmpty
     @NotBlank
     @Size(max = 40)
     @Email
     private String email;
 
     @NotBlank
+    @NotNull
     @Size(min = 5, max = 20)
     private String mobileNumber;
 
     @NotBlank
+    @NotNull
     @Size(max = 100)
     private String password;
 
