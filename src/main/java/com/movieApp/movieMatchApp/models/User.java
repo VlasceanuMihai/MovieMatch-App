@@ -64,6 +64,7 @@ public class User {
     @Column
     private UserStatus status;
 
+    @NotNull
     @Size(max = 80)
     private String addressLine;
 
@@ -76,7 +77,7 @@ public class User {
     private String country;
 
     @Column(nullable = false)
-    private Instant createdAt;
+    private Instant createdAt = Instant.now();
 
     @Column
     private boolean emailVerified;

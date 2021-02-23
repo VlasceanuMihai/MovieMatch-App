@@ -57,7 +57,6 @@ public class RegistrationService {
         user.setCountry(request.getCountry());
         user.setRole(Role.ROLE_USER);
         user.setStatus(UserStatus.ACCOUNT_CREATED);
-        user.setCreatedAt(Instant.now());
         user.setEmailVerified(false);
         user.setMobileVerified(false);
         return user;
