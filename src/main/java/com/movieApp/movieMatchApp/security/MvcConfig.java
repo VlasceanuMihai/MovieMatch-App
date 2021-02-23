@@ -19,4 +19,6 @@ public class MvcConfig implements WebMvcConfigurer {
         SecureRandom random = new SecureRandom();
         return new BCryptPasswordEncoder(strength, random);
     }
+
+
 }

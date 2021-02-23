@@ -1,6 +1,6 @@
 package com.movieApp.movieMatchApp.security;
 
-import com.movieApp.movieMatchApp.services.UserAuthService;
+import com.movieApp.movieMatchApp.services.AuthUserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Profile("!https")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserAuthService userAuthService;
+    private final AuthUserService authUserService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(UserAuthService userAuthService, PasswordEncoder passwordEncoder) {
-        this.userAuthService = userAuthService;
+    public WebSecurityConfig(AuthUserService authUserService, PasswordEncoder passwordEncoder) {
+        this.authUserService = authUserService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -31,8 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/movieMatch/api/v1/registration*").permitAll()
-                ;
+                .antMatchers(HttpMethod.OPTIONS, "/api/v1/registration*").permitAll();
+//                .anyRequest().authenticated().and().httpBasic();
     }
 
     @Override
