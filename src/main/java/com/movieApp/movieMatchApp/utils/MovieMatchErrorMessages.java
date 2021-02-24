@@ -7,6 +7,8 @@ import java.io.Serializable;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MovieMatchErrorMessages implements Serializable {
 
+    MOVIE_ALREADY_INSERTED("The entered movie is already in our database."),
+
     COULD_NOT_INSERT_MOVIE("Movie could not be inserted"),
     COULD_NOT_INSERT_USER("User could not be inserted"),
     COULD_NOT_DELETE_MOVIE("Movie could not be deleted");

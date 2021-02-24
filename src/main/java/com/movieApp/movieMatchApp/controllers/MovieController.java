@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 @RequestMapping(value = "/v1/movies",
-                produces = MediaType.APPLICATION_JSON_VALUE,
-                consumes = MediaType.APPLICATION_JSON_VALUE)
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
 
     private MovieService movieService;
@@ -26,17 +26,15 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<MovieDto> addMovie(@RequestBody MovieDto movieDto) {
+    public ResponseEntity<Object> addMovie(@RequestBody MovieDto movieDto) {
 
-        return movieService.addMovie(movieDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        return movieService.addMovie(movieDto);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Object> removeMovie(@RequestBody MovieDto movieDto) {
 
-        movieService.removeMovie(movieDto.getName());
-        return ResponseEntity.ok().build();
+    @DeleteMapping(path = "/{movieName}")
+    public ResponseEntity<Object> removeMovie(@PathVariable String movieName) {
+
+        return movieService.removeMovie(movieName);
     }
 }

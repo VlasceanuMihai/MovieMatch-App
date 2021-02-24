@@ -7,17 +7,13 @@ import com.movieApp.movieMatchApp.models.Movie;
 import com.movieApp.movieMatchApp.repositories.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 
-import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.COULD_NOT_INSERT_MOVIE;
-import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.COULD_NOT_DELETE_MOVIE;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.*;
 
 @Service
 @Slf4j
@@ -38,30 +34,31 @@ public class MovieService {
     }
 
     public List<Movie> getAllMovies() {
+
         return this.movieRepository.findAll();
     }
 
-    @Transactional
-    public Optional<MovieDto> addMovie(MovieDto movieDto) {
+    public ResponseEntity<Object> addMovie(MovieDto movieDto) {
 
         try {
-            MovieDto toBeSaved = movieDto;
             movieRepository.save(entityMapper.toMovie(movieDto));
-            return Optional.of(toBeSaved);
-        } catch (Exception sqlException) {
+            return ResponseEntity.ok(movieDto);
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+            return ResponseEntity.badRequest().body(MOVIE_ALREADY_INSERTED);
+        } catch (Exception e) {
             log.warn("Movie could not be added");
-            throw new WebApplicationException(Response.status(BAD_REQUEST).entity(COULD_NOT_INSERT_MOVIE).build());
+            return ResponseEntity.badRequest().body(COULD_NOT_INSERT_MOVIE);
         }
     }
 
-    @Transactional
-    public void removeMovie(String movieName) {
+    public ResponseEntity<Object> removeMovie(String movieName) {
 
         try {
             movieRepository.deleteByName(movieName);
-        } catch (Exception sqlException) {
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
             log.warn("Movie could not be added");
-            throw new WebApplicationException(Response.status(BAD_REQUEST).entity(COULD_NOT_DELETE_MOVIE).build());
+            return ResponseEntity.badRequest().body(COULD_NOT_DELETE_MOVIE);
         }
     }
 }
