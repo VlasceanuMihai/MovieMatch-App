@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Optional;
 
 import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.COULD_NOT_INSERT_MOVIE;
+import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.COULD_NOT_DELETE_MOVIE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 @Service
@@ -40,17 +42,26 @@ public class MovieService {
     }
 
     @Transactional
-    public MovieDto addMovie(MovieDto movieDto) {
+    public Optional<MovieDto> addMovie(MovieDto movieDto) {
 
         try {
             MovieDto toBeSaved = movieDto;
             movieRepository.save(entityMapper.toMovie(movieDto));
-            return toBeSaved;
+            return Optional.of(toBeSaved);
         } catch (Exception sqlException) {
             log.warn("Movie could not be added");
             throw new WebApplicationException(Response.status(BAD_REQUEST).entity(COULD_NOT_INSERT_MOVIE).build());
         }
+    }
 
+    @Transactional
+    public void removeMovie(String movieName) {
 
+        try {
+            movieRepository.deleteByName(movieName);
+        } catch (Exception sqlException) {
+            log.warn("Movie could not be added");
+            throw new WebApplicationException(Response.status(BAD_REQUEST).entity(COULD_NOT_DELETE_MOVIE).build());
+        }
     }
 }

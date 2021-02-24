@@ -8,7 +8,9 @@ import java.io.Serializable;
 public enum MovieMatchErrorMessages implements Serializable {
 
     COULD_NOT_INSERT_MOVIE("Movie could not be inserted"),
-    COULD_NOT_INSERT_USER("User could not be inserted");
+    COULD_NOT_INSERT_USER("User could not be inserted"),
+    COULD_NOT_DELETE_MOVIE("Movie could not be deleted");
+
 
     private final String errorMessage;
 

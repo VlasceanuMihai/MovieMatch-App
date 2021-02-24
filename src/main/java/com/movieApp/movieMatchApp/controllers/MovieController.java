@@ -2,12 +2,15 @@ package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.services.MovieService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
-@RequestMapping("/api/v1/movies")
+@RequestMapping(value = "/v1/movies",
+                produces = MediaType.APPLICATION_JSON_VALUE,
+                consumes = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
 
     private MovieService movieService;
@@ -23,8 +26,17 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addMovie(MovieDto movieDto) {
+    public ResponseEntity<MovieDto> addMovie(@RequestBody MovieDto movieDto) {
 
-        return ResponseEntity.ok(movieService.addMovie(movieDto));
+        return movieService.addMovie(movieDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Object> removeMovie(@RequestBody MovieDto movieDto) {
+
+        movieService.removeMovie(movieDto.getName());
+        return ResponseEntity.ok().build();
     }
 }
