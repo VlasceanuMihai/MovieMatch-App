@@ -46,7 +46,7 @@ public class MovieService {
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             return ResponseEntity.badRequest().body(MOVIE_ALREADY_INSERTED);
         } catch (Exception e) {
-            log.warn("Movie could not be added");
+            log.warn("Movie could not be added", e);
             return ResponseEntity.badRequest().body(COULD_NOT_INSERT_MOVIE);
         }
     }
@@ -57,7 +57,7 @@ public class MovieService {
             movieRepository.deleteByName(movieName);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            log.warn("Movie could not be added");
+            log.warn("Movie could not be added", e);
             return ResponseEntity.badRequest().body(COULD_NOT_DELETE_MOVIE);
         }
     }
