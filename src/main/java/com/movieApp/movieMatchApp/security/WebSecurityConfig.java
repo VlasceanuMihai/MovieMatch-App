@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         httpSecurity
-                // Configurare Filter --> fiecare request trece prin acest filter
+                // Configurare Filter --> fiecare request trece prin acest filter pentru a vedea daca este authorized
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity
