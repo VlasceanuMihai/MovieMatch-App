@@ -7,11 +7,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RestController
-@RequestMapping(value = "/v1/movies",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/movies",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
 
     private MovieService movieService;
