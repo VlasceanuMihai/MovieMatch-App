@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "jwt.signing.key.secret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.signing.key.secret."
+    },
+    {
+      "name": "jwt.get.token.uri",
+      "type": "java.lang.String",
+      "description": "Description for jwt.get.token.uri."
+    },
+    {
+      "name": "jwt.signing.key.secret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.signing.key.secret."
+    },
+    {
+      "name": "jwt.refresh.token.uri",
+      "type": "java.lang.String",
+      "description": "Description for jwt.refresh.token.uri."
+    }
+  ] }
