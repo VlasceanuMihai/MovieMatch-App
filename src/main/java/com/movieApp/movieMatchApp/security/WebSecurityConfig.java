@@ -26,22 +26,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("mihai")
+                .password(passwordEncoder.encode("parola"))
+                .authorities("USER");
+    }
+
     @SneakyThrows
     @Override
     protected void configure(HttpSecurity http) {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/api/v1/registration*").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/api/v1/login*").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/api/v1/logout*").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/api/v1/movies*").permitAll();
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().loginPage("/login").permitAll();
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .antMatchers(HttpMethod.OPTIONS, "/api/v1/login*").permitAll()
+//                .antMatchers(HttpMethod.OPTIONS, "/api/v1/logout*").permitAll()
+                .antMatchers("/api/v1/registration").permitAll()
+//                .antMatchers("/api/v1/registration").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                //.formLogin().and()
+                .httpBasic();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(authUserService).passwordEncoder(passwordEncoder);
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(authUserService).passwordEncoder(passwordEncoder);
+//    }
 }
