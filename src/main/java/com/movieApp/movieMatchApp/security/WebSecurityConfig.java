@@ -88,6 +88,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         HttpMethod.POST,
                         authenticationPath
                 )
+                .antMatchers(
+                        HttpMethod.POST,
+                        "/api/v1/registration"
+                )
                 .antMatchers(HttpMethod.OPTIONS, "/**")
                 .and()
                 .ignoring()
