@@ -1,5 +1,6 @@
-package com.movieApp.movieMatchApp.models;
+package com.movieApp.movieMatchApp.models.movie;
 
+import com.movieApp.movieMatchApp.models.user.User;
 import lombok.*;
 
 import javax.persistence.*;

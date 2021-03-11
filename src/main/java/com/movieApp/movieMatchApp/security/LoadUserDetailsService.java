@@ -1,6 +1,6 @@
 package com.movieApp.movieMatchApp.security;
 
-import com.movieApp.movieMatchApp.models.User;
+import com.movieApp.movieMatchApp.models.user.User;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

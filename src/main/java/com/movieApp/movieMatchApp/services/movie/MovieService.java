@@ -1,10 +1,12 @@
-package com.movieApp.movieMatchApp.services;
+package com.movieApp.movieMatchApp.services.movie;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.mappers.DtoMapper;
 import com.movieApp.movieMatchApp.mappers.EntityMapper;
-import com.movieApp.movieMatchApp.models.Movie;
+import com.movieApp.movieMatchApp.models.movie.Movie;
+import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import com.movieApp.movieMatchApp.repositories.MovieRepository;
+import com.movieApp.movieMatchApp.repositories.UserAndMovieRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,12 +36,14 @@ public class MovieService {
     }
 
     public List<Movie> getAllMovies() {
-
         return this.movieRepository.findAll();
     }
 
-    public ResponseEntity<Object> addMovie(MovieDto movieDto) {
+    public List<Movie> getAllMoviesByUsername(String username) {
+        return this.movieRepository.findMovies(username);
+    }
 
+    public ResponseEntity<Object> addMovie(MovieDto movieDto) {
         try {
             movieRepository.save(entityMapper.toMovie(movieDto));
             return ResponseEntity.ok(movieDto);
@@ -52,7 +56,6 @@ public class MovieService {
     }
 
     public ResponseEntity<Object> removeMovie(String movieName) {
-
         try {
             movieRepository.deleteByName(movieName);
             return ResponseEntity.noContent().build();

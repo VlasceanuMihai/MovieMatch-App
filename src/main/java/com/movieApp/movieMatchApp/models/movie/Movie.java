@@ -1,4 +1,4 @@
-package com.movieApp.movieMatchApp.models;
+package com.movieApp.movieMatchApp.models.movie;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.AllArgsConstructor;

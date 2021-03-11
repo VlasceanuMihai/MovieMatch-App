@@ -1,7 +1,7 @@
-package com.movieApp.movieMatchApp.services;
+package com.movieApp.movieMatchApp.services.user;
 
-import com.movieApp.movieMatchApp.models.User;
-import com.movieApp.movieMatchApp.models.UserStatus;
+import com.movieApp.movieMatchApp.models.user.User;
+import com.movieApp.movieMatchApp.models.user.UserStatus;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
