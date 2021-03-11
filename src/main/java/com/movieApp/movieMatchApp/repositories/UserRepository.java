@@ -1,7 +1,7 @@
 package com.movieApp.movieMatchApp.repositories;
 
-import com.movieApp.movieMatchApp.models.User;
-import com.movieApp.movieMatchApp.models.UserStatus;
+import com.movieApp.movieMatchApp.models.user.User;
+import com.movieApp.movieMatchApp.models.user.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

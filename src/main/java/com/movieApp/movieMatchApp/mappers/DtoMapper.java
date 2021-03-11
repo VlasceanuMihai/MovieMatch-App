@@ -2,8 +2,8 @@ package com.movieApp.movieMatchApp.mappers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.UserDto;
-import com.movieApp.movieMatchApp.models.Movie;
-import com.movieApp.movieMatchApp.models.User;
+import com.movieApp.movieMatchApp.models.movie.Movie;
+import com.movieApp.movieMatchApp.models.user.User;
 import org.springframework.stereotype.Service;
 
 @Service

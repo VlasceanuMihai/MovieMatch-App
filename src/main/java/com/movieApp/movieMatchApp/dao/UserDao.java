@@ -2,7 +2,7 @@ package com.movieApp.movieMatchApp.dao;
 
 import com.googlecode.jmapper.JMapper;
 import com.movieApp.movieMatchApp.dto.UserDto;
-import com.movieApp.movieMatchApp.models.User;
+import com.movieApp.movieMatchApp.models.user.User;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

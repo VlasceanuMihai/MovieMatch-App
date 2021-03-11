@@ -1,4 +1,4 @@
-package com.movieApp.movieMatchApp.models;
+package com.movieApp.movieMatchApp.models.movie;
 
 import lombok.*;
 

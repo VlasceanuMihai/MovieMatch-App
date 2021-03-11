@@ -1,20 +1,18 @@
-package com.movieApp.movieMatchApp.services;
+package com.movieApp.movieMatchApp.services.auth;
 
 import com.movieApp.movieMatchApp.exceptions.UserExistsException;
-import com.movieApp.movieMatchApp.models.Role;
-import com.movieApp.movieMatchApp.models.User;
-import com.movieApp.movieMatchApp.models.UserStatus;
+import com.movieApp.movieMatchApp.models.user.Role;
+import com.movieApp.movieMatchApp.models.user.User;
+import com.movieApp.movieMatchApp.models.user.UserStatus;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import com.movieApp.movieMatchApp.requests.UserRegistrationDetailsRequest;
-import com.movieApp.movieMatchApp.responses.UserRegistrationDetailsResponse;
+import com.movieApp.movieMatchApp.services.user.UserService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 
 @Service
 @Slf4j

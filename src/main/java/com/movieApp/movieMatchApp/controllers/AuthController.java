@@ -2,7 +2,7 @@ package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.exceptions.UserExistsException;
 import com.movieApp.movieMatchApp.requests.UserRegistrationDetailsRequest;
-import com.movieApp.movieMatchApp.services.RegistrationService;
+import com.movieApp.movieMatchApp.services.auth.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class AuthController {
 
@@ -21,7 +21,7 @@ public class AuthController {
         this.registrationService = registrationService;
     }
 
-    @PostMapping("/v1/registration")
+    @PostMapping("/registration")
 //    @PreAuthorize("isAnonymous()")
     public ResponseEntity<Object> registrationUser(@Valid @RequestBody UserRegistrationDetailsRequest request) {
         try {

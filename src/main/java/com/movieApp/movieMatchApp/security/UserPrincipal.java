@@ -1,7 +1,7 @@
 package com.movieApp.movieMatchApp.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.movieApp.movieMatchApp.models.Role;
+import com.movieApp.movieMatchApp.models.user.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

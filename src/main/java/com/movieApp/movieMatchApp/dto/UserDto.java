@@ -1,8 +1,8 @@
 package com.movieApp.movieMatchApp.dto;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
-import com.movieApp.movieMatchApp.models.Role;
-import com.movieApp.movieMatchApp.models.UserStatus;
+import com.movieApp.movieMatchApp.models.user.Role;
+import com.movieApp.movieMatchApp.models.user.UserStatus;
 import lombok.*;
 
 import javax.validation.constraints.*;
