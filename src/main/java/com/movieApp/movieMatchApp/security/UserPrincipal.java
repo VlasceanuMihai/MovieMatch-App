@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class UserPrincipal implements UserDetails {
 
@@ -80,4 +81,13 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        UserPrincipal user = (UserPrincipal) o;
+        return Objects.equals(id, user.id);
+    }
 }

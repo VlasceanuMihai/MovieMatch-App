@@ -33,7 +33,7 @@ public class RegistrationService {
 
     @Transactional
     @SneakyThrows
-    public User signUp(UserRegistrationDetailsRequest request) {
+    public User signUp(UserRegistrationDetailsRequest request) throws UserExistsException{
         if (userService.checkExistingEmail(request.getEmail()) ||
                 userService.checkExistingMobileNumber(request.getMobileNumber()) ||
                 userService.checkSameNameAndDateOfBirthAndStatus(request.getFirstName(), request.getLastName(), request.getDateOfBirth())) {

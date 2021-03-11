@@ -29,5 +29,14 @@ public class Movie {
     private String description;
 
     @Column(nullable = false)
+    private String year;
+
+    @Column(nullable = false)
+    private Double rating;
+
+    @Column(nullable = false)
+    private Integer popularity;
+
+    @Column(nullable = false)
     private String imageUrl;
 }

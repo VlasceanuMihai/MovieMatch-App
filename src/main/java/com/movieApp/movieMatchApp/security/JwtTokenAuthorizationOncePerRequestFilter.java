@@ -46,30 +46,34 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
 
         String username = null;
         String jwtToken = null;
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                logger.error("JWT_TOKEN_UNABLE_TO_GET_USERNAME", e);
-            } catch (ExpiredJwtException e) {
-                logger.warn("JWT_TOKEN_EXPIRED", e);
+        try {
+            if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+                jwtToken = requestTokenHeader.substring(7);
+                try {
+                    username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                } catch (IllegalArgumentException e) {
+                    logger.error("JWT_TOKEN_UNABLE_TO_GET_USERNAME", e);
+                } catch (ExpiredJwtException e) {
+                    logger.warn("JWT_TOKEN_EXPIRED", e);
+                }
+            } else {
+                logger.warn("JWT_TOKEN_DOES_NOT_START_WITH_BEARER_STRING");
             }
-        } else {
-            logger.warn("JWT_TOKEN_DOES_NOT_START_WITH_BEARER_STRING");
-        }
 
-        logger.debug("JWT_TOKEN_USERNAME_VALUE '{}'", username);
-        logger.info("JWT_TOKEN_USERNAME_VALUE '{}'", username);
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            logger.debug("JWT_TOKEN_USERNAME_VALUE '{}'", username);
+            logger.info("JWT_TOKEN_USERNAME_VALUE '{}'", username);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
             }
+        }catch (Exception e){
+            logger.error("Cannot set user authentication: ", e);
         }
 
         chain.doFilter(request, response);
