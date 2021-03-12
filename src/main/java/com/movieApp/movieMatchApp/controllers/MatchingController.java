@@ -1,6 +1,6 @@
 package com.movieApp.movieMatchApp.controllers;
 
-import com.movieApp.movieMatchApp.dto.UserDto;
+import com.movieApp.movieMatchApp.dto.MatchResponsePojo;
 import com.movieApp.movieMatchApp.models.user.User;
 import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.MatchingService;
@@ -44,11 +44,12 @@ public class MatchingController {
             return ResponseEntity.badRequest().build();
         }
 
-        UserDto matchingUser = matchingService.match(userService.getUser(userPrincipal.getId()));
-        if (matchingUser == null) {
+        MatchResponsePojo matchResponse = matchingService.match(userService.getUser(userPrincipal.getId()));
+        if (matchResponse == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(matchingUser);
+
+        return ResponseEntity.ok(matchResponse);
     }
 
 }
