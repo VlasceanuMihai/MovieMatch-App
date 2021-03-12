@@ -1,10 +1,7 @@
 package com.movieApp.movieMatchApp.models.movie;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Data
 @Builder
 @JGlobalMap
+@EqualsAndHashCode(of = {"id"})
 public class Movie {
 
     @Id
