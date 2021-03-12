@@ -1,12 +1,10 @@
 package com.movieApp.movieMatchApp.dto;
 
+import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +20,6 @@ public class MovieDto {
 
     @NotNull
     private String description;
+
+    private Set<UserAndMovie> userAndMovie;
 }

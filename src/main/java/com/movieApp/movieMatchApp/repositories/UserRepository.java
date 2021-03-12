@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
                                                                      String lastName,
                                                                      LocalDate dateOfBirth,
                                                                      UserStatus status);
+
+    Optional<User> findById(Long id);
 }

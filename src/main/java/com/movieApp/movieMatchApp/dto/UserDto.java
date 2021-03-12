@@ -1,6 +1,7 @@
 package com.movieApp.movieMatchApp.dto;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
+import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import com.movieApp.movieMatchApp.models.user.Role;
 import com.movieApp.movieMatchApp.models.user.UserStatus;
 import lombok.*;
@@ -8,6 +9,7 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -76,4 +78,6 @@ public class UserDto {
     private boolean emailVerified;
 
     private boolean mobileVerified;
+
+    private Set<UserAndMovie> userAndMovie;
 }
