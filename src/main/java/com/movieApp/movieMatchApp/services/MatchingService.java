@@ -11,7 +11,9 @@ import com.movieApp.movieMatchApp.services.movie.MovieService;
 import com.movieApp.movieMatchApp.services.user.UserService;
 import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,6 +30,8 @@ public class MatchingService {
     DtoMapper dtoMapper;
 
     UserDao userDao;
+
+    private static final String NO_MATCHING_MOVIES = "NO MATCHING MOVIES";
 
     @Autowired
     public MatchingService(MovieService movieService,
@@ -67,6 +71,9 @@ public class MatchingService {
         }
 
         int maxValueInMap = (Collections.max(results.values()));
+        if (maxValueInMap == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, NO_MATCHING_MOVIES);
+        }
         Long matchingId = null;
         for (Map.Entry<Long, Integer> entry : results.entrySet()) {
             if (entry.getValue() == maxValueInMap) {
