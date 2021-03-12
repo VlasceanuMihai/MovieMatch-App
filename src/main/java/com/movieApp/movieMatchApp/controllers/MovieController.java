@@ -1,10 +1,12 @@
 package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
+import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
@@ -25,14 +27,9 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
-    @GetMapping("/movies/{username}")
-    public ResponseEntity<Object> getMoviesByUsername(@PathVariable String username){
-        return ResponseEntity.ok(movieService.getAllMoviesByUsername(username));
-
-//        try {
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error");
-//        }
+    @GetMapping("/myMovies")
+    public ResponseEntity<Object> getMoviesByUsername(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(movieService.getAllMoviesByUsername(userPrincipal.getUsername()));
     }
 
     @PostMapping("/movie")

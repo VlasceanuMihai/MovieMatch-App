@@ -1,7 +1,6 @@
 package com.movieApp.movieMatchApp.dto;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
-import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import com.movieApp.movieMatchApp.models.user.Role;
 import com.movieApp.movieMatchApp.models.user.UserStatus;
 import lombok.*;
@@ -10,7 +9,6 @@ import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

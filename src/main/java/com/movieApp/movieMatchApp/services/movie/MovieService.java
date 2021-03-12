@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.*;
 
@@ -34,12 +35,16 @@ public class MovieService {
         this.dtoMapper = dtoMapper;
     }
 
-    public List<Movie> getAllMovies() {
-        return this.movieRepository.findAll();
+    public List<MovieDto> getAllMovies() {
+        return this.movieRepository.findAll().stream()
+                .map(movie -> dtoMapper.toMovieDto(movie))
+                .collect(Collectors.toList());
     }
 
-    public List<Movie> getAllMoviesByUsername(String username) {
-        return this.movieRepository.findMovies(username);
+    public List<MovieDto> getAllMoviesByUsername(String username) {
+        return this.movieRepository.findMovies(username).stream()
+                .map(movie -> dtoMapper.toMovieDto(movie))
+                .collect(Collectors.toList());
     }
 
     public ResponseEntity<Object> addMovie(MovieDto movieDto) {
