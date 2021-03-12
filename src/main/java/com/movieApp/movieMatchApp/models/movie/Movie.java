@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -39,4 +40,7 @@ public class Movie {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private Set<UserAndMovie> userAndMovie;
 }
