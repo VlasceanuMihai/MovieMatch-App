@@ -34,9 +34,9 @@ public class MovieService {
         this.dtoMapper = dtoMapper;
     }
 
-    public List<Movie> getAllMovies() {
-        return this.movieRepository.findAll();
-    }
+//    public List<Movie> getAllMovies() {
+//        return this.movieRepository.findAll();
+//    }
 
     public List<Movie> getAllMoviesByUsername(String username) {
         return this.movieRepository.findMovies(username);

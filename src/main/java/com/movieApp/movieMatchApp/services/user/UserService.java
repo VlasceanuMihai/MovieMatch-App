@@ -69,13 +69,7 @@ public class UserService {
 
     public User getUser(Long id) {
 
-        Optional<User> user = userRepository.findById(id);
-
-        if (user.isEmpty()) {
-            return null;
-        }
-
-        return user.get();
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found!"));
     }
 
     public Optional<UserDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
@@ -85,13 +79,11 @@ public class UserService {
                 .collect(Collectors.toSet());
 
         Set<UserAndMovie> userAndMovieSet = new HashSet<>();
-        movies.forEach(movie -> {
-            UserAndMovie userAndMovie = new UserAndMovie(new UserAndMovieKey(user.getId(), movie.getId()), user, movie);
-            userAndMovieSet.add(userAndMovie);
-        });
+        movies.forEach(movie ->
+                userAndMovieSet.add(new UserAndMovie(new UserAndMovieKey(user.getId(), movie.getId()), user, movie)));
         user.setUserAndMovie(userAndMovieSet);
         userRepository.save(user);
-        return Optional.of(dtoMapper.toUserDto(user));
+        return Optional.of(UserDao.TO_USER_DTO.getDestination(user));
     }
 
     // nu stiu daca sa ramana asa, dar fac pt testing purposes ca sa nu stau sa bag dto-uri intregi in postman

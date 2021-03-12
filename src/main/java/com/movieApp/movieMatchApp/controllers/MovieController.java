@@ -20,10 +20,10 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/movies")
-    public ResponseEntity<Object> getMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies());
-    }
+//    @GetMapping("/movies")
+//    public ResponseEntity<Object> getMovies() {
+//        return ResponseEntity.ok(movieService.getAllMovies());
+//    }
 
     @GetMapping("/movies/{username}")
     public ResponseEntity<Object> getMoviesByUsername(@PathVariable String username){

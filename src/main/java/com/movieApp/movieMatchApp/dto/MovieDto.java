@@ -1,10 +1,8 @@
 package com.movieApp.movieMatchApp.dto;
 
-import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +19,11 @@ public class MovieDto {
     @NotNull
     private String description;
 
+    private String year;
+
+    private Double rating;
+
+    private Integer popularity;
+
+    private String imageUrl;
 }
