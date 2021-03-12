@@ -1,6 +1,7 @@
 package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
+import com.movieApp.movieMatchApp.dto.TestMoviesAdderPojo;
 import com.movieApp.movieMatchApp.dto.MoviesAdder;
 import com.movieApp.movieMatchApp.dto.UserDto;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Object> profile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<Object> profile(@AuthenticationPrincipal UserPrincipal userPrincipal){
         return ResponseEntity.ok(userService.getProfile(userPrincipal.getId()));
     }
 
@@ -38,15 +39,17 @@ public class UserController {
     }
 
     @PostMapping("/addMovies")
-    public ResponseEntity<Object> addMoviesToUser(@RequestBody UserDto userDto,
+    public ResponseEntity<Object> addMoviesToUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                   @RequestBody List<MovieDto> movieList) {
 
-        return ResponseEntity.ok(userService.addMoviesToUser(userDto, movieList));
+        return ResponseEntity.ok(userService.addMoviesToUser(userService.getUser(userPrincipal.getId()), movieList));
     }
 
+    // nu stiu daca sa ramana asa, dar fac pt testing purposes ca sa nu stau sa bag dto-uri intregi in postman
     @PostMapping("/addMoviesById")
-    public ResponseEntity<Object> addMoviesToUserById(@RequestBody MoviesAdder moviesAdder) {
+    public ResponseEntity<Object> addMoviesToUserById(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                      @RequestBody TestMoviesAdderPojo testMoviesAdderPojo) {
 
-        return ResponseEntity.ok(userService.addMoviesToUser(moviesAdder.getUserId(), moviesAdder.getMoviesIdList()));
+        return ResponseEntity.ok(userService.addMoviesToUser(userPrincipal.getId(), testMoviesAdderPojo.getMoviesIdList()));
     }
 }

@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +33,7 @@ public class JwtTokenAuthorizationOncePerRequestFilter extends OncePerRequestFil
     private String tokenHeader;
 
     @Autowired
-    public JwtTokenAuthorizationOncePerRequestFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
+    public JwtTokenAuthorizationOncePerRequestFilter(@Qualifier("loadUserDetailsService") UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
     }
