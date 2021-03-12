@@ -54,11 +54,6 @@ public class UserDto {
     @Size(min = 5, max = 20)
     private String mobileNumber;
 
-    @NotBlank
-    @NotNull
-    @Size(max = 100)
-    private String password;
-
     @NotNull
     private Role role;
 

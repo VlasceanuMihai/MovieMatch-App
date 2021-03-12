@@ -28,7 +28,6 @@ public class DtoMapper {
                 .dateOfBirth(user.getDateOfBirth())
                 .email(user.getEmail())
                 .mobileNumber(user.getMobileNumber())
-                .password(user.getPassword())
                 .role(user.getRole())
                 .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
