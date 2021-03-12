@@ -1,6 +1,7 @@
 package com.movieApp.movieMatchApp.dto;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
+import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import com.movieApp.movieMatchApp.models.user.Role;
 import com.movieApp.movieMatchApp.models.user.UserStatus;
 import lombok.*;
@@ -8,7 +9,11 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @Builder
@@ -77,12 +82,12 @@ public class UserDto {
 
     private boolean mobileVerified;
 
+    private Set<UserAndMovie> userAndMovie;
+
     public String getFullName() {
         return Stream.of(firstName, lastName)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(" "))
                 .trim().replaceAll(" +", " ");
     }
-
-    private Set<UserAndMovie> userAndMovie;
 }

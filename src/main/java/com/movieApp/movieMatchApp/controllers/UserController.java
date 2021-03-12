@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 @RequestMapping("/api/v1/user")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class UserController {
@@ -33,11 +32,10 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/v1/profile")
+    @GetMapping("/profile")
     public ResponseEntity<Object> profile(@AuthenticationPrincipal UserPrincipal userPrincipal){
         return ResponseEntity.ok(userService.getProfile(userPrincipal.getId()));
     }
-    private UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
