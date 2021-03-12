@@ -72,7 +72,7 @@ public class MatchingService {
 
         int maxValueInMap = (Collections.max(results.values()));
         if (maxValueInMap == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, NO_MATCHING_MOVIES);
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, NO_MATCHING_MOVIES);
         }
         Long matchingId = null;
         for (Map.Entry<Long, Integer> entry : results.entrySet()) {
