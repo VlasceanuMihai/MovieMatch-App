@@ -1,5 +1,14 @@
 package com.movieApp.movieMatchApp.controllers;
 
+import com.movieApp.movieMatchApp.repositories.UserRepository;
+import com.movieApp.movieMatchApp.security.UserPrincipal;
+import com.movieApp.movieMatchApp.services.user.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.MoviesAdder;
 import com.movieApp.movieMatchApp.dto.UserDto;
@@ -16,6 +25,17 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private UserRepository userRepository;
+
+    public UserController(UserService userService, UserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Object> profile(@AuthenticationPrincipal UserPrincipal userPrincipal){
+        return ResponseEntity.ok(userService.getProfile(userPrincipal.getId()));
+    }
 
     @Autowired
     public UserController(UserService userService) {
