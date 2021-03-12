@@ -44,17 +44,15 @@ public class MatchingService {
         List<User> users = userService.getAllUsers();
 
         Map<Long, Integer> results = new HashMap<>();
-
-        users.stream()
-                .filter(skipUser -> !user.getId().equals(user.getId()))
-                .map(testingUser -> {
-                    List<Long> testingUserMovieList = testingUser.getUserAndMovie().stream()
-                            .map(userAndMovie -> userAndMovie.getMovie().getId())
-                            .collect(Collectors.toList());
-                    testingUserMovieList.retainAll(userMovieListId);
-                    results.put(testingUser.getId(), testingUserMovieList.size());
-                    return testingUser;
-                });
+        users.forEach(testingUser -> {
+            if (!testingUser.getId().equals(user.getId())) {
+                List<Long> testingUserMovieList = testingUser.getUserAndMovie().stream()
+                        .map(userAndMovie -> userAndMovie.getMovie().getId())
+                        .collect(Collectors.toList());
+                testingUserMovieList.retainAll(userMovieListId);
+                results.put(testingUser.getId(), testingUserMovieList.size());
+            }
+        });
 
         if (results.isEmpty()) {
             return null;
