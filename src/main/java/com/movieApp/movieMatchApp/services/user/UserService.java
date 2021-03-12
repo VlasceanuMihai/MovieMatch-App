@@ -88,22 +88,26 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
+    public Set<MovieDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
 
         Set<Movie> movies = movieDtoList.stream()
                 .map(movieDto -> entityMapper.toMovie(movieDto))
                 .collect(Collectors.toSet());
 
         Set<UserAndMovie> userAndMovieSet = new HashSet<>();
-        movies.forEach(movie ->
-                userAndMovieSet.add(new UserAndMovie(new UserAndMovieKey(user.getId(), movie.getId()), user, movie)));
+        movies.forEach(movie -> {
+            UserAndMovie userAndMovie = new UserAndMovie(new UserAndMovieKey(user.getId(), movie.getId()), user, movie);
+            userAndMovieRepository.save(userAndMovie);
+            userAndMovieSet.add(userAndMovie);
+        });
+        // daca ne hotaram sa lucram cu liste si sa nu incarcam din db, trebuie sa vedem cum salvam ca sa nu dea constraint
+        // violation la save de user
         user.setUserAndMovie(userAndMovieSet);
-        userRepository.save(user);
-        return Optional.of(UserDao.TO_USER_DTO.getDestination(user));
+        return movies.stream().map(movie -> dtoMapper.toMovieDto(movie)).collect(Collectors.toSet());
     }
 
     // nu stiu daca sa ramana asa, dar fac pt testing purposes ca sa nu stau sa bag dto-uri intregi in postman
-    public Optional<UserDto> addMoviesToUser(Long userId, List<Long> movieIdList) {
+    public Set<MovieDto> addMoviesToUser(Long userId, List<Long> movieIdList) {
 
         User user = entityMapper.toUser(userDao.findById(userId).get());
 
@@ -117,12 +121,15 @@ public class UserService {
             userAndMovieRepository.save(userAndMovie);
             userAndMovieSet.add(userAndMovie);
         });
-
-        return Optional.of(dtoMapper.toUserDto(user));
+        // daca ne hotaram sa lucram cu liste si sa nu incarcam din db, trebuie sa vedem cum salvam ca sa nu dea constraint
+        // violation la save de user
+        user.setUserAndMovie(userAndMovieSet);
+        return movies.stream().map(movie -> dtoMapper.toMovieDto(movie)).collect(Collectors.toSet());
     }
 
     @Transactional
     public UserProfileResponse getProfile(Long id) {
+
         User userEntity = findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         UserDto user = UserDao.TO_USER_DTO.getDestination(userEntity);
@@ -145,6 +152,7 @@ public class UserService {
 
     @Transactional
     public Optional<User> findById(Long id) {
+
         return this.userRepository.findById(id);
     }
 }

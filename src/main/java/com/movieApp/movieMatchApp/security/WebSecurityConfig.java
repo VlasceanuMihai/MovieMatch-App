@@ -1,6 +1,7 @@
 package com.movieApp.movieMatchApp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public WebSecurityConfig(JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint,
-                             UserDetailsService userDetailsService,
+                             @Qualifier("loadUserDetailsService") UserDetailsService userDetailsService,
                              JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter){
         this.jwtUnAuthorizedResponseAuthenticationEntryPoint = jwtUnAuthorizedResponseAuthenticationEntryPoint;
         this.userDetailsService = userDetailsService;

@@ -2,6 +2,7 @@ package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.TestMoviesAdderPojo;
+import com.movieApp.movieMatchApp.models.movie.Movie;
 import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -39,7 +41,13 @@ public class UserController {
     public ResponseEntity<Object> addMoviesToUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                   @RequestBody List<MovieDto> movieList) {
 
-        return ResponseEntity.ok(userService.addMoviesToUser(userService.getUser(userPrincipal.getId()), movieList));
+        Set<MovieDto> movieDtoSet = userService.addMoviesToUser(userService.getUser(userPrincipal.getId()), movieList);
+
+        if (movieDtoSet == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(movieDtoSet);
     }
 
     // nu stiu daca sa ramana asa, dar fac pt testing purposes ca sa nu stau sa bag dto-uri intregi in postman
@@ -47,6 +55,12 @@ public class UserController {
     public ResponseEntity<Object> addMoviesToUserById(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                       @RequestBody TestMoviesAdderPojo testMoviesAdderPojo) {
 
-        return ResponseEntity.ok(userService.addMoviesToUser(userPrincipal.getId(), testMoviesAdderPojo.getMoviesIdList()));
+        Set<MovieDto> movieDtoSet = userService.addMoviesToUser(userPrincipal.getId(), testMoviesAdderPojo.getMoviesIdList());
+
+        if (movieDtoSet == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(movieDtoSet);
     }
 }
