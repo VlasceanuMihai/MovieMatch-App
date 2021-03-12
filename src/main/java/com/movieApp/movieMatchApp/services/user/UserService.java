@@ -79,7 +79,9 @@ public class UserService {
 
     public List<UserDto> getAllDtoUsers() {
 
-        return userRepository.findAll().stream().map(user -> dtoMapper.toUserDto(user)).collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .map(UserDao.TO_USER_DTO::getDestination)
+                .collect(Collectors.toList());
     }
 
     public Optional<UserDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
