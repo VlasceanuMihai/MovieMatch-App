@@ -31,9 +31,4 @@ public class AuthController {
                     " or name: " + (request.getFirstName().concat(request.getLastName())) + " already exists!");
         }
     }
-
-//    @GetMapping(path = "/v1/basicAuth")
-//    public ResponseEntity<Object> authenticate() {
-//        return ResponseEntity.ok(new AuthenticationBean("You are authenticated"));
-//    }
 }

@@ -2,9 +2,6 @@ package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.TestMoviesAdderPojo;
-import com.movieApp.movieMatchApp.dto.MoviesAdder;
-import com.movieApp.movieMatchApp.dto.UserDto;
-import com.movieApp.movieMatchApp.repositories.UserRepository;
 import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +17,15 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    private UserRepository userRepository;
-
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
-
-    @GetMapping("/profile")
-    public ResponseEntity<Object> profile(@AuthenticationPrincipal UserPrincipal userPrincipal){
-        return ResponseEntity.ok(userService.getProfile(userPrincipal.getId()));
-    }
 
     @Autowired
     public UserController(UserService userService) {
-
         this.userService = userService;
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Object> profile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(userService.getProfile(userPrincipal.getId()));
     }
 
     @PostMapping("/addMovies")
