@@ -21,7 +21,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JGlobalMap
+@JGlobalMap(excluded = "userAndMovie")
 @Builder
 public class User {
 
