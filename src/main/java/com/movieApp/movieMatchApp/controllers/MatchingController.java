@@ -1,14 +1,19 @@
 package com.movieApp.movieMatchApp.controllers;
 
+import com.movieApp.movieMatchApp.dto.UserDto;
+import com.movieApp.movieMatchApp.models.user.User;
+import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.MatchingService;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import com.movieApp.movieMatchApp.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -32,12 +37,19 @@ public class MatchingController {
         this.matchingService = matchingService;
     }
 
-    @PostMapping(value = "/user/{userId}")
-    public ResponseEntity<Object> matchUsers(@PathVariable Long userId,
-                                             @RequestBody List<Long> movieList) {
+    @GetMapping
+    public ResponseEntity<Object> matchUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-        return ResponseEntity.ok().build();
+        User user = userService.getUser(userPrincipal.getId());
+        if (user == null) {
+            return ResponseEntity.badRequest().build();
+        }
 
+        UserDto matchingUser = matchingService.match(userService.getUser(userPrincipal.getId()));
+        if (matchingUser == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(matchingUser);
     }
 
 }
