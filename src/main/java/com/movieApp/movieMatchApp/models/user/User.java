@@ -1,6 +1,7 @@
 package com.movieApp.movieMatchApp.models.user;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
+import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -84,4 +86,7 @@ public class User {
 
     @Column
     private boolean mobileVerified;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<UserAndMovie> userAndMovie;
 }

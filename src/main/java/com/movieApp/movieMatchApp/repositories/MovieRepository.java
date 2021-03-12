@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
@@ -15,4 +16,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query(value = "SELECT m.movie FROM UserAndMovie m WHERE m.user.email = :username")
     List<Movie> findMovies(@Param("username") String username);
+
+    Optional<Movie> findMovieById(Long movieId);
 }

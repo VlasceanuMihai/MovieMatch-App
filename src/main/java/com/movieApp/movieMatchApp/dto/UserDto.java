@@ -8,10 +8,7 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Data
 @Builder
@@ -86,4 +83,6 @@ public class UserDto {
                 .collect(Collectors.joining(" "))
                 .trim().replaceAll(" +", " ");
     }
+
+    private Set<UserAndMovie> userAndMovie;
 }
