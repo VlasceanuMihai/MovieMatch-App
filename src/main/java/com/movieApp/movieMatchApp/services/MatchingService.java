@@ -1,11 +1,15 @@
 package com.movieApp.movieMatchApp.services;
 
 import com.movieApp.movieMatchApp.dao.UserDao;
+import com.movieApp.movieMatchApp.dto.MatchResponsePojo;
+import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.UserDto;
+import com.movieApp.movieMatchApp.mappers.DtoMapper;
 import com.movieApp.movieMatchApp.mappers.EntityMapper;
 import com.movieApp.movieMatchApp.models.user.User;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import com.movieApp.movieMatchApp.services.user.UserService;
+import org.assertj.core.util.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,21 +25,25 @@ public class MatchingService {
 
     EntityMapper entityMapper;
 
+    DtoMapper dtoMapper;
+
     UserDao userDao;
 
     @Autowired
     public MatchingService(MovieService movieService,
                            UserService userService,
                            EntityMapper entityMapper,
-                           UserDao userDao) {
+                           UserDao userDao,
+                           DtoMapper dtoMapper) {
 
         this.movieService = movieService;
         this.userService = userService;
         this.entityMapper = entityMapper;
         this.userDao = userDao;
+        this.dtoMapper = dtoMapper;
     }
 
-    public UserDto match(User user) {
+    public MatchResponsePojo match(User user) {
 
         List<Long> userMovieListId = user.getUserAndMovie().stream()
                 .map(userAndMovie -> userAndMovie.getMovie().getId())
@@ -71,12 +79,35 @@ public class MatchingService {
         }
 
         Optional<UserDto> matchedUser = userDao.findById(matchingId);
-
         if (matchedUser.isEmpty()) {
             return null;
         }
 
-        return matchedUser.get();
+        return MatchResponsePojo.builder()
+                .userDto(matchedUser.get())
+                .movieSet(getCommonMovies(user, matchedUser))
+                .build();
+    }
+
+    private Set getCommonMovies(User user, Optional<UserDto> matchedUser) {
+
+        List<MovieDto> matchedUserMovies = userService.getUser(matchedUser.get().getId())
+                .getUserAndMovie().stream()
+                .map(userAndMovie -> {
+                    return dtoMapper.toMovieDto(userAndMovie.getMovie());
+                })
+                .collect(Collectors.toList());
+
+        List<MovieDto> userMovies = userService.getUser(user.getId())
+                .getUserAndMovie().stream()
+                .map(userAndMovie -> {
+                    return dtoMapper.toMovieDto(userAndMovie.getMovie());
+                })
+                .collect(Collectors.toList());
+
+        matchedUserMovies.retainAll(userMovies);
+
+        return Sets.newHashSet(matchedUserMovies);
     }
 
 }
