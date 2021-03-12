@@ -78,6 +78,16 @@ public class UserService {
         return user.get();
     }
 
+    public List<User> getAllUsers() {
+
+        return userRepository.findAll();
+    }
+
+    public List<UserDto> getAllDtoUsers() {
+
+        return userRepository.findAll().stream().map(user -> dtoMapper.toUserDto(user)).collect(Collectors.toList());
+    }
+
     public Optional<UserDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
 
         Set<Movie> movies = movieDtoList.stream()
