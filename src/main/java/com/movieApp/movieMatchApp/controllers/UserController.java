@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.movieApp.movieMatchApp.dto.MovieDto;
-import com.movieApp.movieMatchApp.dto.MoviesAdder;
-import com.movieApp.movieMatchApp.dto.UserDto;
-import com.movieApp.movieMatchApp.services.user.UserService;
+import com.movieApp.movieMatchApp.dto.TestMoviesAdderPojo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,15 +41,17 @@ public class UserController {
     }
 
     @PostMapping("/addMovies")
-    public ResponseEntity<Object> addMoviesToUser(@RequestBody UserDto userDto,
+    public ResponseEntity<Object> addMoviesToUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                   @RequestBody List<MovieDto> movieList) {
 
-        return ResponseEntity.ok(userService.addMoviesToUser(userDto, movieList));
+        return ResponseEntity.ok(userService.addMoviesToUser(userService.getUser(userPrincipal.getId()), movieList));
     }
 
+    // nu stiu daca sa ramana asa, dar fac pt testing purposes ca sa nu stau sa bag dto-uri intregi in postman
     @PostMapping("/addMoviesById")
-    public ResponseEntity<Object> addMoviesToUserById(@RequestBody MoviesAdder moviesAdder) {
+    public ResponseEntity<Object> addMoviesToUserById(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                      @RequestBody TestMoviesAdderPojo testMoviesAdderPojo) {
 
-        return ResponseEntity.ok(userService.addMoviesToUser(moviesAdder.getUserId(), moviesAdder.getMoviesIdList()));
+        return ResponseEntity.ok(userService.addMoviesToUser(userPrincipal.getId(), testMoviesAdderPojo.getMoviesIdList()));
     }
 }

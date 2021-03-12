@@ -21,5 +21,4 @@ public class MovieDto {
     @NotNull
     private String description;
 
-    private Set<UserAndMovie> userAndMovie;
 }

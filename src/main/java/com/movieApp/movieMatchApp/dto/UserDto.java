@@ -82,8 +82,6 @@ public class UserDto {
 
     private boolean mobileVerified;
 
-    private Set<UserAndMovie> userAndMovie;
-
     public String getFullName() {
         return Stream.of(firstName, lastName)
                 .filter(Objects::nonNull)

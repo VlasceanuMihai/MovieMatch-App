@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class MoviesAdder {
+public class TestMoviesAdderPojo {
 
     private Long userId;
 

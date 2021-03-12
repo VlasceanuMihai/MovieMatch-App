@@ -78,9 +78,8 @@ public class UserService {
         return user.get();
     }
 
-    public Optional<UserDto> addMoviesToUser(UserDto userDto, List<MovieDto> movieDtoList) {
+    public Optional<UserDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
 
-        User user = entityMapper.toUser(userDto);
         Set<Movie> movies = movieDtoList.stream()
                 .map(movieDto -> entityMapper.toMovie(movieDto))
                 .collect(Collectors.toSet());
