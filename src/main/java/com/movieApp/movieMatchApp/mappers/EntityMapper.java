@@ -28,7 +28,6 @@ public class EntityMapper {
                 .dateOfBirth(userDto.getDateOfBirth())
                 .email(userDto.getEmail())
                 .mobileNumber(userDto.getMobileNumber())
-                .password(userDto.getPassword())
                 .role(userDto.getRole())
                 .status(userDto.getStatus())
                 .createdAt(userDto.getCreatedAt())
