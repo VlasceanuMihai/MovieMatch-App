@@ -11,6 +11,7 @@ import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import com.movieApp.movieMatchApp.models.movie.UserAndMovieKey;
 import com.movieApp.movieMatchApp.models.user.User;
 import com.movieApp.movieMatchApp.models.user.UserStatus;
+import com.movieApp.movieMatchApp.repositories.UserAndMovieRepository;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import com.movieApp.movieMatchApp.responses.user.UserProfileResponse;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
@@ -37,17 +38,20 @@ public class UserService {
     private DtoMapper dtoMapper;
     private UserDao userDao;
     private MovieService movieService;
+    private UserAndMovieRepository userAndMovieRepository;
 
     public UserService(UserRepository userRepository,
                        EntityMapper entityMapper,
                        DtoMapper dtoMapper,
                        UserDao userDao,
-                       MovieService movieService) {
+                       MovieService movieService,
+                       UserAndMovieRepository userAndMovieRepository) {
         this.userRepository = userRepository;
         this.entityMapper = entityMapper;
         this.dtoMapper = dtoMapper;
         this.userDao = userDao;
         this.movieService = movieService;
+        this.userAndMovieRepository = userAndMovieRepository;
     }
 
     public boolean checkExistingEmail(String email) {
@@ -110,10 +114,10 @@ public class UserService {
         Set<UserAndMovie> userAndMovieSet = new HashSet<>();
         movies.forEach(movie -> {
             UserAndMovie userAndMovie = new UserAndMovie(new UserAndMovieKey(userId, movie.getId()), user, movie);
+            userAndMovieRepository.save(userAndMovie);
             userAndMovieSet.add(userAndMovie);
         });
-        user.setUserAndMovie(userAndMovieSet);
-        userRepository.save(user);
+
         return Optional.of(dtoMapper.toUserDto(user));
     }
 
