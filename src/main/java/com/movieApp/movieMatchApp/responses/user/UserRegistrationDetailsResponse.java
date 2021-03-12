@@ -1,4 +1,4 @@
-package com.movieApp.movieMatchApp.responses;
+package com.movieApp.movieMatchApp.responses.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

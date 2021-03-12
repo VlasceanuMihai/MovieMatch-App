@@ -8,7 +8,10 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @Builder
@@ -76,4 +79,11 @@ public class UserDto {
     private boolean emailVerified;
 
     private boolean mobileVerified;
+
+    public String getFullName() {
+        return Stream.of(firstName, lastName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(" "))
+                .trim().replaceAll(" +", " ");
+    }
 }
