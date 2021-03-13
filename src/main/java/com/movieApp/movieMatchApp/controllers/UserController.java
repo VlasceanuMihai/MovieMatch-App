@@ -36,6 +36,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllDtoUsers());
     }
 
+    @PostMapping("/addMovie")
+    public ResponseEntity<Object> addMovie(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                           @RequestBody MovieDto requestMovie) {
+
+        return ResponseEntity.ok(userService.addMovie(userPrincipal.getId(), requestMovie));
+    }
+
     @PostMapping("/addMovies")
     public ResponseEntity<Object> addMoviesToUser(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                                   @RequestBody List<MovieDto> movieList) {

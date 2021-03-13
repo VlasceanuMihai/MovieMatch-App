@@ -12,6 +12,7 @@ import com.movieApp.movieMatchApp.models.movie.UserAndMovie;
 import com.movieApp.movieMatchApp.models.movie.UserAndMovieKey;
 import com.movieApp.movieMatchApp.models.user.User;
 import com.movieApp.movieMatchApp.models.user.UserStatus;
+import com.movieApp.movieMatchApp.repositories.MovieRepository;
 import com.movieApp.movieMatchApp.repositories.UserAndMovieRepository;
 import com.movieApp.movieMatchApp.repositories.UserRepository;
 import com.movieApp.movieMatchApp.responses.user.UserProfileResponse;
@@ -23,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +40,7 @@ public class UserService {
     private MovieDao movieDao;
     private MovieService movieService;
     private UserAndMovieRepository userAndMovieRepository;
+    private MovieRepository movieRepository;
 
     @Autowired
     public UserService(UserRepository userRepository,
@@ -50,7 +49,8 @@ public class UserService {
                        UserDao userDao,
                        MovieDao movieDao,
                        MovieService movieService,
-                       UserAndMovieRepository userAndMovieRepository) {
+                       UserAndMovieRepository userAndMovieRepository,
+                       MovieRepository movieRepository) {
         this.userRepository = userRepository;
         this.entityMapper = entityMapper;
         this.dtoMapper = dtoMapper;
@@ -58,6 +58,7 @@ public class UserService {
         this.movieDao = movieDao;
         this.movieService = movieService;
         this.userAndMovieRepository = userAndMovieRepository;
+        this.movieRepository =  movieRepository;
     }
 
     public boolean checkExistingEmail(String email) {
@@ -92,6 +93,23 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(UserDao.TO_USER_DTO::getDestination)
                 .collect(Collectors.toList());
+    }
+
+    public MovieDto addMovie(Long userId, MovieDto movieDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+        Movie movie = MovieDao.TO_MOVIE_ENTITY.getDestination(movieDto);
+
+        Optional<Movie> existingMovie = movieRepository.findMovieByUserIdAndMovieId(userId, movie.getId());
+        if (existingMovie.isPresent()) {
+            log.info("Movie already exists in user's watchlist!");
+            return new MovieDto();
+        }
+
+            UserAndMovie userAndMovie = new UserAndMovie(new UserAndMovieKey(user.getId(), movie.getId()), user, movie);
+            userAndMovieRepository.save(userAndMovie);
+            user.setUserAndMovie(Set.of(userAndMovie));
+            return movieDto;
     }
 
     public Set<MovieDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
