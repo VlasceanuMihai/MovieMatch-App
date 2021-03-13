@@ -1,5 +1,6 @@
 package com.movieApp.movieMatchApp.services.movie;
 
+import com.movieApp.movieMatchApp.dao.MovieDao;
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.exceptions.movie.MovieNotFoundException;
 import com.movieApp.movieMatchApp.mappers.DtoMapper;
@@ -37,19 +38,19 @@ public class MovieService {
 
     public List<MovieDto> getAllMovies() {
         return this.movieRepository.findAll().stream()
-                .map(movie -> dtoMapper.toMovieDto(movie))
+                .map(MovieDao.TO_MOVIE_DTO::getDestination)
                 .collect(Collectors.toList());
     }
 
     public List<MovieDto> getAllMoviesByUsername(String username) {
         return this.movieRepository.findMovies(username).stream()
-                .map(movie -> dtoMapper.toMovieDto(movie))
+                .map(MovieDao.TO_MOVIE_DTO::getDestination)
                 .collect(Collectors.toList());
     }
 
     public ResponseEntity<Object> addMovie(MovieDto movieDto) {
         try {
-            movieRepository.save(entityMapper.toMovie(movieDto));
+            movieRepository.save(MovieDao.TO_MOVIE_ENTITY.getDestination(movieDto));
             return ResponseEntity.ok(movieDto);
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             return ResponseEntity.badRequest().body(MOVIE_ALREADY_INSERTED);
