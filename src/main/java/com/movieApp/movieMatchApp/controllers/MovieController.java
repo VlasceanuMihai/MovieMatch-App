@@ -27,16 +27,15 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
-    @GetMapping("/myMovies")
+    @GetMapping("/watchlist")
     public ResponseEntity<Object> getMoviesByUsername(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity.ok(movieService.getAllMoviesByUsername(userPrincipal.getUsername()));
     }
 
-    @PostMapping("/movie")
-    public ResponseEntity<Object> addMovie(@RequestBody MovieDto movieDto) {
-        return movieService.addMovie(movieDto);
-    }
-
+//    @PostMapping("/movie")
+//    public ResponseEntity<Object> addMovie(@RequestBody MovieDto movieDto) {
+//        return movieService.addMovie(movieDto);
+//    }
 
     @DeleteMapping(path = "/{movieName}")
     public ResponseEntity<Object> removeMovie(@PathVariable String movieName) {

@@ -2,7 +2,6 @@ package com.movieApp.movieMatchApp.controllers;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.TestMoviesAdderPojo;
-import com.movieApp.movieMatchApp.models.movie.Movie;
 import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

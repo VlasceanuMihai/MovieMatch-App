@@ -17,5 +17,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query(value = "SELECT m.movie FROM UserAndMovie m WHERE m.user.email = :username")
     List<Movie> findMovies(@Param("username") String username);
 
+    Optional<Movie> findByName(String name);
+
     Optional<Movie> findMovieById(Long movieId);
 }

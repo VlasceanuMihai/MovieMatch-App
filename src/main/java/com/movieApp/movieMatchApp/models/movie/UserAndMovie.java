@@ -5,13 +5,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "user_and_movie")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 public class UserAndMovie {
 
     @EmbeddedId

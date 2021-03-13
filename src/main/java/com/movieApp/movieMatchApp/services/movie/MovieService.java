@@ -1,6 +1,8 @@
 package com.movieApp.movieMatchApp.services.movie;
 
+import com.movieApp.movieMatchApp.dao.MovieDao;
 import com.movieApp.movieMatchApp.dto.MovieDto;
+import com.movieApp.movieMatchApp.exceptions.movie.MovieNotFoundException;
 import com.movieApp.movieMatchApp.mappers.DtoMapper;
 import com.movieApp.movieMatchApp.mappers.EntityMapper;
 import com.movieApp.movieMatchApp.models.movie.Movie;
@@ -12,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.*;
@@ -37,19 +38,19 @@ public class MovieService {
 
     public List<MovieDto> getAllMovies() {
         return this.movieRepository.findAll().stream()
-                .map(movie -> dtoMapper.toMovieDto(movie))
+                .map(MovieDao.TO_MOVIE_DTO::getDestination)
                 .collect(Collectors.toList());
     }
 
     public List<MovieDto> getAllMoviesByUsername(String username) {
         return this.movieRepository.findMovies(username).stream()
-                .map(movie -> dtoMapper.toMovieDto(movie))
+                .map(MovieDao.TO_MOVIE_DTO::getDestination)
                 .collect(Collectors.toList());
     }
 
     public ResponseEntity<Object> addMovie(MovieDto movieDto) {
         try {
-            movieRepository.save(entityMapper.toMovie(movieDto));
+            movieRepository.save(MovieDao.TO_MOVIE_ENTITY.getDestination(movieDto));
             return ResponseEntity.ok(movieDto);
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             return ResponseEntity.badRequest().body(MOVIE_ALREADY_INSERTED);
@@ -70,13 +71,7 @@ public class MovieService {
     }
 
     public Movie getMovie(Long movieId) {
-
-        Optional<Movie> movieOptional = movieRepository.findById(movieId);
-
-        if (movieOptional.isEmpty()) {
-            return null;
-        }
-
-        return movieOptional.get();
+        return movieRepository.findById(movieId)
+                .orElseThrow(() -> new MovieNotFoundException("Movie not found!"));
     }
 }

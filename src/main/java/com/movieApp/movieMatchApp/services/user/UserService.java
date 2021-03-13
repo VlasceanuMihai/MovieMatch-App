@@ -1,5 +1,6 @@
 package com.movieApp.movieMatchApp.services.user;
 
+import com.movieApp.movieMatchApp.dao.MovieDao;
 import com.movieApp.movieMatchApp.dao.UserDao;
 import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.dto.UserDto;
@@ -16,6 +17,7 @@ import com.movieApp.movieMatchApp.repositories.UserRepository;
 import com.movieApp.movieMatchApp.responses.user.UserProfileResponse;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,19 +39,23 @@ public class UserService {
     private EntityMapper entityMapper;
     private DtoMapper dtoMapper;
     private UserDao userDao;
+    private MovieDao movieDao;
     private MovieService movieService;
     private UserAndMovieRepository userAndMovieRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository,
                        EntityMapper entityMapper,
                        DtoMapper dtoMapper,
                        UserDao userDao,
+                       MovieDao movieDao,
                        MovieService movieService,
                        UserAndMovieRepository userAndMovieRepository) {
         this.userRepository = userRepository;
         this.entityMapper = entityMapper;
         this.dtoMapper = dtoMapper;
         this.userDao = userDao;
+        this.movieDao = movieDao;
         this.movieService = movieService;
         this.userAndMovieRepository = userAndMovieRepository;
     }
@@ -89,9 +95,8 @@ public class UserService {
     }
 
     public Set<MovieDto> addMoviesToUser(User user, List<MovieDto> movieDtoList) {
-
         Set<Movie> movies = movieDtoList.stream()
-                .map(movieDto -> entityMapper.toMovie(movieDto))
+                .map(MovieDao.TO_MOVIE_ENTITY::getDestination)
                 .collect(Collectors.toSet());
 
         Set<UserAndMovie> userAndMovieSet = new HashSet<>();
@@ -103,13 +108,12 @@ public class UserService {
         // daca ne hotaram sa lucram cu liste si sa nu incarcam din db, trebuie sa vedem cum salvam ca sa nu dea constraint
         // violation la save de user
         user.setUserAndMovie(userAndMovieSet);
-        return movies.stream().map(movie -> dtoMapper.toMovieDto(movie)).collect(Collectors.toSet());
+        return movies.stream().map(MovieDao.TO_MOVIE_DTO::getDestination).collect(Collectors.toSet());
     }
 
     // nu stiu daca sa ramana asa, dar fac pt testing purposes ca sa nu stau sa bag dto-uri intregi in postman
     public Set<MovieDto> addMoviesToUser(Long userId, List<Long> movieIdList) {
-
-        User user = entityMapper.toUser(userDao.findById(userId).get());
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found!"));
 
         Set<Movie> movies = movieIdList.stream()
                 .map(movieId -> movieService.getMovie(movieId))
