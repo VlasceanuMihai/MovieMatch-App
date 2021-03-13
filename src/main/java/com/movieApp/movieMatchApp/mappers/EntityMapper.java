@@ -15,6 +15,10 @@ public class EntityMapper {
                 .id(movieDto.getId())
                 .name(movieDto.getName())
                 .description(movieDto.getDescription())
+                .year(movieDto.getYear())
+                .rating(movieDto.getRating())
+                .imageUrl(movieDto.getImageUrl())
+                .popularity(movieDto.getPopularity())
                 .build();
     }
 

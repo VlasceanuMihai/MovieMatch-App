@@ -15,6 +15,10 @@ public class DtoMapper {
                 .id(movie.getId())
                 .name(movie.getName())
                 .description(movie.getDescription())
+                .year(movie.getYear())
+                .rating(movie.getRating())
+                .imageUrl(movie.getImageUrl())
+                .popularity(movie.getPopularity())
                 .build();
     }
 
