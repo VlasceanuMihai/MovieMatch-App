@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class TestMoviesAdderPojo {
 
-    private Long userId;
+//    private Long userId;
 
     private List<Long> moviesIdList;
 }

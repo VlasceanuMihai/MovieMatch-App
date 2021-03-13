@@ -1,6 +1,7 @@
 package com.movieApp.movieMatchApp.services.movie;
 
 import com.movieApp.movieMatchApp.dto.MovieDto;
+import com.movieApp.movieMatchApp.exceptions.movie.MovieNotFoundException;
 import com.movieApp.movieMatchApp.mappers.DtoMapper;
 import com.movieApp.movieMatchApp.mappers.EntityMapper;
 import com.movieApp.movieMatchApp.models.movie.Movie;
@@ -12,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.*;
@@ -70,13 +70,7 @@ public class MovieService {
     }
 
     public Movie getMovie(Long movieId) {
-
-        Optional<Movie> movieOptional = movieRepository.findById(movieId);
-
-        if (movieOptional.isEmpty()) {
-            return null;
-        }
-
-        return movieOptional.get();
+        return movieRepository.findById(movieId)
+                .orElseThrow(() -> new MovieNotFoundException("Movie not found!"));
     }
 }

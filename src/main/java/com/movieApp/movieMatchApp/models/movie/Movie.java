@@ -9,11 +9,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "movie")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@JGlobalMap(excluded = {"userAndMovie"})
 @Builder
-@JGlobalMap
 @EqualsAndHashCode(of = {"id"})
 public class Movie {
 

@@ -1,5 +1,6 @@
 package com.movieApp.movieMatchApp.dto;
 
+import com.googlecode.jmapper.annotations.JGlobalMap;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Data
 @EqualsAndHashCode(of = {"name"})
+@JGlobalMap
 public class MovieDto {
 
     private Long id;
