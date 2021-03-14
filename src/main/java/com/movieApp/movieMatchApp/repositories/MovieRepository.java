@@ -8,14 +8,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     int deleteByName(String name);
 
-    @Query(value = "SELECT m.movie FROM UserAndMovie m WHERE m.user.email = :username")
-    List<Movie> findMovies(@Param("username") String username);
+    @Query(value = "SELECT m.movie FROM UserAndMovie m WHERE m.user.id = :userId")
+    Set<Movie> findMoviesById(@Param("userId") Long userId);
 
     @Query(value = "SELECT m.movie FROM UserAndMovie m WHERE m.user.id = :userId AND m.movie.id = :movieId")
     Optional<Movie> findMovieByUserIdAndMovieId(@Param("userId") Long userId, @Param("movieId") Long movieId);

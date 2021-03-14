@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.movieApp.movieMatchApp.utils.MovieMatchErrorMessages.*;
@@ -42,10 +43,10 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    public List<MovieDto> getAllMoviesByUsername(String username) {
-        return this.movieRepository.findMovies(username).stream()
+    public Set<MovieDto> getMoviesFromWatchlist(Long id) {
+        return this.movieRepository.findMoviesById(id).stream()
                 .map(MovieDao.TO_MOVIE_DTO::getDestination)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public ResponseEntity<Object> addMovie(MovieDto movieDto) {

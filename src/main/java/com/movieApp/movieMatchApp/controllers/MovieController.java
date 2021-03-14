@@ -28,8 +28,8 @@ public class MovieController {
     }
 
     @GetMapping("/watchlist")
-    public ResponseEntity<Object> getMoviesByUsername(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return ResponseEntity.ok(movieService.getAllMoviesByUsername(userPrincipal.getUsername()));
+    public ResponseEntity<Object> getMoviesFromWatchlist(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(movieService.getMoviesFromWatchlist(userPrincipal.getId()));
     }
 
 //    @PostMapping("/movie")
