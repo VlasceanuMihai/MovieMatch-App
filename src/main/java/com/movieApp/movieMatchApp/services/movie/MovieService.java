@@ -10,6 +10,8 @@ import com.movieApp.movieMatchApp.repositories.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +39,8 @@ public class MovieService {
         this.dtoMapper = dtoMapper;
     }
 
-    public List<MovieDto> getAllMovies() {
-        return this.movieRepository.findAll().stream()
+    public List<MovieDto> getAllMovies(Pageable pageable) {
+        return this.movieRepository.findAll(pageable).stream()
                 .map(MovieDao.TO_MOVIE_DTO::getDestination)
                 .collect(Collectors.toList());
     }

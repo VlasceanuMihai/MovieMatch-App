@@ -1,30 +1,30 @@
 package com.movieApp.movieMatchApp.controllers;
 
-import com.movieApp.movieMatchApp.dto.MovieDto;
 import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RestController
-@RequestMapping(value = "/api/v1",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class MovieController {
 
-    private MovieService movieService;
+    private final MovieService movieService;
 
     @Autowired
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
     }
 
-    @GetMapping("/movies")
-    public ResponseEntity<Object> getMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies());
+    @GetMapping("/movies/{page}")
+    public ResponseEntity<Object> getMovies(@PathVariable Integer page) {
+        return ResponseEntity.ok(movieService.getAllMovies(PageRequest.of(page, 10)));
     }
 
     @GetMapping("/watchlist")
