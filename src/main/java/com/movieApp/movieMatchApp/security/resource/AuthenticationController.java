@@ -1,7 +1,7 @@
 package com.movieApp.movieMatchApp.security.resource;
 
-import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.security.JwtTokenUtil;
+import com.movieApp.movieMatchApp.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -25,20 +25,20 @@ public class AuthenticationController {
     private String tokenHeader;
 
     private AuthenticationManager authenticationManager;
-
     private JwtTokenUtil jwtTokenUtil;
-
     private UserDetailsService userDetailsService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
+    public AuthenticationController(AuthenticationManager authenticationManager,
+                                    JwtTokenUtil jwtTokenUtil,
+                                    UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
     }
 
     @PostMapping(value = "${jwt.get.token.uri}")
-    public ResponseEntity<Object> createAuthenticationToken(@RequestBody TokenRequest authenticationRequest)
+    public ResponseEntity<Object> createAuthenticationToken(@RequestBody LoginRequest authenticationRequest)
             throws AuthenticationException {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -47,7 +47,7 @@ public class AuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new TokenResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @GetMapping(value = "${jwt.refresh.token.uri}")
@@ -59,7 +59,7 @@ public class AuthenticationController {
 
         if (jwtTokenUtil.canTokenBeRefreshed(token)) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new TokenResponse(refreshedToken));
+            return ResponseEntity.ok(new LoginResponse(refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
         }

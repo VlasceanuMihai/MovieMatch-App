@@ -5,18 +5,18 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class TokenRequest implements Serializable {
+public class LoginRequest implements Serializable {
 
     private static final long serialVersionUID = -5616176897013108345L;
 
     private String username;
     private String password;
 
-    public TokenRequest() {
+    public LoginRequest() {
         super();
     }
 
-    public TokenRequest(String username, String password) {
+    public LoginRequest(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }

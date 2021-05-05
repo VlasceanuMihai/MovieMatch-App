@@ -4,6 +4,8 @@ import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,9 +23,9 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/movies/{page}")
-    public ResponseEntity<Object> getMovies(@PathVariable Integer page) {
-        return ResponseEntity.ok(movieService.getAllMovies(PageRequest.of(page, 10)));
+    @GetMapping("/movies")
+    public ResponseEntity<Object> getMovies(@PageableDefault(size = 2) Pageable pageable) {
+        return ResponseEntity.ok(movieService.getAllMovies(pageable));
     }
 
     @GetMapping("/watchlist")
