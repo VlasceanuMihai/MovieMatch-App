@@ -4,7 +4,6 @@ import com.movieApp.movieMatchApp.security.UserPrincipal;
 import com.movieApp.movieMatchApp.services.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
